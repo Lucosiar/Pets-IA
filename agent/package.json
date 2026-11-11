@@ -1,0 +1,14 @@
+{
+  "name": "petsia-agent",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch src/petsia.ts agent",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "typescript": "^7.0.2"
+  }
+}

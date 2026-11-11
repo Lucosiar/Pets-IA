@@ -1,0 +1,98 @@
+[
+  {
+    "id": "default",
+    "label": "Critter",
+    "body": [
+      "................",
+      "................",
+      "................",
+      "................",
+      "...BBBBBBBBBB...",
+      "...BBBBBBBBBB...",
+      "...BBBBBBBBBB...",
+      ".BBBBBBBBBBBBBB.",
+      ".BBBBBBBBBBBBBB.",
+      "...BBBBBBBBBB...",
+      "...DDDDDDDDDD...",
+      "....D.D..D.D....",
+      "....D.D..D.D....",
+      "................",
+      "................",
+      "................"
+    ],
+    "walk": { "row": 12, "rows": ["...D...DD...D..."] },
+    "eyes": { "y": 5, "left": 5, "right": 9 }
+  },
+  {
+    "id": "robot",
+    "label": "Robot",
+    "body": [
+      "................",
+      ".......LL.......",
+      ".......DD.......",
+      "...BBBBBBBBBB...",
+      "...BFFFFFFFFB...",
+      "...BFFFFFFFFB...",
+      "...BFFFFFFFFB...",
+      "...BBBBBBBBBB...",
+      "....DDDDDDDD....",
+      "..BBBBBBBBBBBB..",
+      "..B.BBBBBBBB.B..",
+      "..B.BBBBBBBB.B..",
+      "....BB....BB....",
+      "....DD....DD....",
+      "................",
+      "................"
+    ],
+    "walk": { "row": 12, "rows": [".....BB..BB.....", ".....DD..DD....."] },
+    "eyes": { "y": 4, "left": 5, "right": 9 },
+    "eyeColor": "#9ff3ff"
+  },
+  {
+    "id": "ghost",
+    "label": "Ghost",
+    "body": [
+      "................",
+      "................",
+      ".....BBBBBB.....",
+      "....BBBBBBBB....",
+      "...BLBBBBBBBB...",
+      "...BLBBBBBBBB...",
+      "...BBBBBBBBBB...",
+      "...BBBBBBBBBB...",
+      "...BBBBBBBBBB...",
+      "...BBBBBBBBBB...",
+      "...BBBBBBBBBB...",
+      "...B.BB.BB.BB...",
+      "................",
+      "................",
+      "................",
+      "................"
+    ],
+    "walk": { "row": 11, "rows": ["...BB.BB.BB.B..."] },
+    "eyes": { "y": 5, "left": 5, "right": 9 }
+  },
+  {
+    "id": "cat",
+    "label": "Cat",
+    "body": [
+      "................",
+      "................",
+      "................",
+      "...BB......BB...",
+      "...BPB....BPB...",
+      "...BBBBBBBBBB...",
+      "..BBBBBBBBBBBB..",
+      "..BBBBBBBBBBBB..",
+      "..BBBBBBBBBBBB..",
+      "..BBBBBPPBBBBB..",
+      "..BBBBBBBBBBBB..",
+      "...BBBBBBBBBB...",
+      "....DDDDDDDD....",
+      "................",
+      "................",
+      "................"
+    ],
+    "eyes": { "y": 7, "left": 5, "right": 9 }
+  }
+]
