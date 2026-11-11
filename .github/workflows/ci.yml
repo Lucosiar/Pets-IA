@@ -47,6 +47,13 @@ jobs:
         run: |
           dist/petsia-macos-arm64/petsia version
           dist/petsia-macos-arm64/petsia --help
+      - name: End to end
+        run: scripts/e2e-macos.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-macos
+          path: e2e/
       - uses: actions/upload-artifact@v4
         with:
           name: macos
@@ -77,6 +84,14 @@ jobs:
         run: |
           dist/petsia-windows-x64/petsia.exe version
           ls -la dist/petsia-windows-x64
+      - name: End to end
+        shell: pwsh
+        run: scripts/e2e-windows.ps1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-windows
+          path: e2e/
       - uses: actions/upload-artifact@v4
         with:
           name: windows
@@ -89,6 +104,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
+          pattern: "{macos,windows}"
           path: dist
           merge-multiple: true
       - env:
