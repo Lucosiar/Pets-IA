@@ -54,6 +54,14 @@ jobs:
         with:
           name: e2e-macos
           path: e2e/
+      - name: Publish screenshot to a branch
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          cd e2e || exit 0
+          git init -q -b screens && git add -A
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "e2e $GITHUB_SHA" || exit 0
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY" "screens:ci/screens-macos"
       - uses: actions/upload-artifact@v4
         with:
           name: macos
@@ -92,6 +100,14 @@ jobs:
         with:
           name: e2e-windows
           path: e2e/
+      - name: Publish screenshot to a branch
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          cd e2e || exit 0
+          git init -q -b screens && git add -A
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "e2e $GITHUB_SHA" || exit 0
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY" "screens:ci/screens-windows"
       - uses: actions/upload-artifact@v4
         with:
           name: windows
