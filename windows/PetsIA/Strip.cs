@@ -48,7 +48,7 @@ public sealed class OverlaySettings
 
 static class Theme
 {
-    public static readonly Brush Backdrop = Draw.Solid(199, 13, 13, 13);
+    public static readonly Brush Backdrop = Draw.Solid(232, 13, 13, 13);
     public static readonly Brush Line = Draw.Solid(26, 255, 255, 255);
     public static readonly Brush Text = Draw.Solid(255, 245, 245, 245);
     public static readonly Brush Muted = Draw.Solid(255, 153, 153, 153);
@@ -361,7 +361,7 @@ public sealed class StripController
         image.Opacity = look.Opacity;
         cell.Background = look.Tile.Fill.ToBrush() ?? Brushes.Transparent;
         cell.BorderBrush = look.Tile.Border.ToBrush();
-        cell.BorderThickness = new Thickness(look.Tile.Border is null ? 0 : look.Tile.BorderWidth);
+        cell.BorderThickness = new Thickness(look.Tile.Border is null ? 0 : look.Tile.Width);
     }
 
     // ── Hover ────────────────────────────────────────────────────────────────

@@ -253,7 +253,13 @@ public readonly record struct Paint(Rgb Rgb, double Alpha = 1)
     public Paint WithAlpha(double alpha) => this with { Alpha = alpha };
 }
 
-public record struct Tile(Paint? Fill = null, Paint? Border = null, double BorderWidth = 1.5);
+public record struct Tile(Paint? Fill = null, Paint? Border = null, double BorderWidth = Tile.DefaultBorderWidth)
+{
+    public const double DefaultBorderWidth = 1.5;
+
+    /// `new Tile()` on a record struct skips the defaults above and leaves 0.
+    public double Width => BorderWidth > 0 ? BorderWidth : DefaultBorderWidth;
+}
 
 public sealed class Appearance
 {
