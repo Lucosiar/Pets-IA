@@ -46,7 +46,7 @@ public sealed class OverlaySettings
     }
 }
 
-static class Style
+static class Theme
 {
     public static readonly Brush Backdrop = Draw.Solid(199, 13, 13, 13);
     public static readonly Brush Line = Draw.Solid(26, 255, 255, 255);
@@ -59,7 +59,7 @@ static class Style
 /// The small label beside the strip: name and status of what the mouse is over. Never takes the mouse.
 sealed class HoverWindow : Window
 {
-    readonly TextBlock name = new() { FontSize = 12, FontWeight = FontWeights.SemiBold, Foreground = Style.Text, TextTrimming = TextTrimming.CharacterEllipsis, MaxWidth = 320 };
+    readonly TextBlock name = new() { FontSize = 12, FontWeight = FontWeights.SemiBold, Foreground = Theme.Text, TextTrimming = TextTrimming.CharacterEllipsis, MaxWidth = 320 };
     readonly TextBlock status = new() { FontSize = 11, FontFamily = new FontFamily("Consolas"), TextTrimming = TextTrimming.CharacterEllipsis, MaxWidth = 320 };
     readonly StackPanel lines = new();
 
@@ -78,8 +78,8 @@ sealed class HoverWindow : Window
         lines.Children.Add(status);
         Content = new Border
         {
-            Background = Style.Backdrop,
-            BorderBrush = Style.Line,
+            Background = Theme.Backdrop,
+            BorderBrush = Theme.Line,
             BorderThickness = new Thickness(1),
             CornerRadius = new CornerRadius(8),
             Padding = new Thickness(10, 6, 10, 6),
@@ -160,14 +160,14 @@ public sealed class StripController
         window.SizeChanged += (_, _) => Place();
         window.MouseLeave += (_, _) => SetHover(null);
 
-        strip.Background = Style.Backdrop;
-        strip.BorderBrush = Style.Line;
+        strip.Background = Theme.Backdrop;
+        strip.BorderBrush = Theme.Line;
         strip.BorderThickness = new Thickness(1);
         strip.Padding = new Thickness(Inset - 1);
         strip.Child = cells;
 
-        tab.Background = Style.Backdrop;
-        tab.BorderBrush = Style.Line;
+        tab.Background = Theme.Backdrop;
+        tab.BorderBrush = Theme.Line;
         tab.BorderThickness = new Thickness(1);
         tab.VerticalAlignment = VerticalAlignment.Center;
         tab.Child = tabImage;
@@ -347,8 +347,8 @@ public sealed class StripController
         }
         var tabLook = Appearance.Tab(shown, settings.Collapsed, EdgeSide == Edge.Right, hovered == "tab", frame, now);
         tabImage.Source = tabLook.Pixels.ToBitmap();
-        tab.Background = tabLook.Tile.Fill is { } fill ? new SolidColorBrush(fill.ToColor()) : Style.Backdrop;
-        tab.BorderBrush = tabLook.Tile.Border.ToBrush() ?? Style.Line;
+        tab.Background = tabLook.Tile.Fill is { } fill ? new SolidColorBrush(fill.ToColor()) : Theme.Backdrop;
+        tab.BorderBrush = tabLook.Tile.Border.ToBrush() ?? Theme.Line;
 
         UpdateHover(now);
         tray.Update(shown, link.Status);
@@ -391,7 +391,7 @@ public sealed class StripController
         {
             title = settings.Collapsed ? "Mostrar" : "Recoger";
             line = Status.Summary(shown);
-            color = shown.Any(s => s.NeedsAttention) ? Style.Accent : Style.Muted;
+            color = shown.Any(s => s.NeedsAttention) ? Theme.Accent : Theme.Muted;
             anchor = tab;
         }
         else if (key == "+")
@@ -399,7 +399,7 @@ public sealed class StripController
             if (settings.Collapsed) { hover.Hide(); return; }
             title = "Añadir sesión";
             line = failure ?? (link.Status == LinkStatus.Online ? "fija una sesión de Claude o Codex" : StatusText(link.Status));
-            color = failure is not null ? Style.Danger : Style.Muted;
+            color = failure is not null ? Theme.Danger : Theme.Muted;
             anchor = (FrameworkElement)cells.Children[shown.Count];
         }
         else
@@ -409,7 +409,7 @@ public sealed class StripController
             var s = shown[index];
             title = $"{s.Name}  —  {s.WhereLabel}";
             line = failure ?? s.StatusLine(now);
-            color = failure is not null ? Style.Danger : s.NeedsAttention ? Style.Accent : Style.Muted;
+            color = failure is not null ? Theme.Danger : s.NeedsAttention ? Theme.Accent : Theme.Muted;
             anchor = (FrameworkElement)cells.Children[index];
         }
 
