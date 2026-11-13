@@ -1,0 +1,9 @@
+petsia agent
+  hooks : http://127.0.0.1:7787/hook
+  panel : ws://127.0.0.1:7788/ws
+  data  : /Users/runner/Library/Application Support/pets-ia/petsia.db
+
+poll failed: Failed with exit code 1
+13:07:56  0603472f  claude/terminal working          web  Pensando…
+13:07:56  019dabc6  codex/terminal needs_permission app  Bash: npm test
+13:07:56  019dabc6  codex/terminal done             api  
