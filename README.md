@@ -56,7 +56,7 @@ Las sesiones de Claude son naranjas y las de Codex azules por defecto; al pasar 
 ## Uso
 
 - **Las sesiones que elijas**: el **+** del final lista las sesiones recientes de la app de Claude y de Codex; elige una para fijarla. Las no fijadas solo aparecen mientras trabajan o te esperan, y cinco minutos después de terminar.
-- **Una criatura por sesión**, animada según su estado: trabajando, necesita permiso, te pregunta, compactando, terminada, error o cerrada. Las terminadas se duermen a los cinco minutos.
+- **Una criatura por sesión**, animada según su estado: trabajando, necesita permiso, te pregunta, compactando, terminada, dormida, error o cerrada. Las terminadas se duermen a los cinco minutos.
 - **Difícil de ignorar**: un permiso pendiente hace parpadear la casilla en naranja; una pregunta la rodea de naranja. Al terminar su turno muestra un check verde.
 - **Pasa el ratón** para ver nombre, herramienta, dónde corre y estado (`Bash: npm test`, `terminado · 5m`…).
 - **Clic** para abrir la sesión. **Clic derecho** para fijarla o quitarla y elegir personaje y color.
