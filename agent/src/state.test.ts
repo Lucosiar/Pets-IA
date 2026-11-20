@@ -238,8 +238,8 @@ describe("Codex sessions", () => {
   test("a Claude desktop session stuck mid-compact also expires: `claude agents` never lists it", () => {
     const stuck = run([ev("UserPromptSubmit"), ev("PreCompact")], T0);
     expect(stuck.state).toBe("compacting");
-    expect(expireQuiet([stuck], T0 + QUIET_WORKING_MS - 1)).toEqual([]);
-    expect(expireQuiet([stuck], T0 + QUIET_WORKING_MS + 1)).toMatchObject([{ state: "ended", live: false }]);
+    expect(expireQuiet([stuck], stuck.lastEventAt + QUIET_WORKING_MS - 1)).toEqual([]);
+    expect(expireQuiet([stuck], stuck.lastEventAt + QUIET_WORKING_MS + 1)).toMatchObject([{ state: "ended", live: false }]);
   });
 
   test("a known origin sticks when later events don't say", () => {
