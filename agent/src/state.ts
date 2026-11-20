@@ -3,9 +3,10 @@
  *
  * Hook events are the authority: instant and detailed. Claude Code and Codex send the same
  * hook shape (Codex copied Claude Code's), so one machine handles both. For Claude, polls of
- * `claude agents --json` correct state that has gone stale (no hook for GRACE_MS) and are the only
- * reliable signal that a process has died; Codex has no such command, so its sessions expire
- * after long silences instead (expireQuiet).
+ * `claude agents --json` correct state that has gone stale (no hook for GRACE_MS) — but only for
+ * sessions that command can see, which excludes ones the Claude desktop app runs internally.
+ * So every session, whatever its source, also expires after long silences (expireQuiet): the only
+ * thing that ever closes a desktop session whose last hook (e.g. PostCompact) never arrived.
  */
 import { basename } from "node:path";
 import type { SessionOrigin, SessionSource, SessionState } from "../../shared/protocol.ts";
@@ -221,11 +222,11 @@ function reconcileOne(prev: SessionRecord | undefined, agent: AgentEntry, now: n
   return rec;
 }
 
-/** Codex sessions that have been silent too long, marked closed; returns only those that changed. */
+/** Any session that has been silent too long, marked closed; returns only those that changed. */
 export function expireQuiet(records: Iterable<SessionRecord>, now: number): SessionRecord[] {
   const expired: SessionRecord[] = [];
   for (const rec of records) {
-    if (rec.source !== "codex" || !rec.live) continue;
+    if (!rec.live) continue;
     const quiet = now - rec.lastEventAt;
     const busy = rec.state === "working" || rec.state === "compacting" || rec.state === "needs_permission" || rec.state === "needs_input";
     if (quiet > (busy ? QUIET_WORKING_MS : QUIET_RESTING_MS)) expired.push({ ...moveTo(rec, "ended", null, now), live: false, pid: null });

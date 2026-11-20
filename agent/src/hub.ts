@@ -63,7 +63,7 @@ export class SessionHub {
     this.commit(applyHookEvent(this.records.get(event.session_id), event, this.now(), context));
   }
 
-  /** Marks Codex sessions that went quiet long ago as closed. */
+  /** Marks any session that went quiet long ago as closed (the only safety net for a desktop session whose last hook never arrived). */
   expire() {
     for (const rec of expireQuiet(this.records.values(), this.now())) this.commit(rec);
   }

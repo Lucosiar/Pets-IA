@@ -226,15 +226,20 @@ describe("Codex sessions", () => {
     expect(reconcile(new Map([[ID, rec]]), [], T0 + GRACE_MS * 10)).toEqual([]);
   });
 
-  test("long silences close Codex sessions; busy ones get longer", () => {
+  test("long silences close any session; busy ones get longer", () => {
     const working = runCodex([ev("UserPromptSubmit")]);
     const done = runCodex([ev("Stop")]);
     expect(expireQuiet([working, done], T0 + QUIET_WORKING_MS - 1)).toEqual([]);
     expect(expireQuiet([working], T0 + QUIET_WORKING_MS + 1)).toMatchObject([{ state: "ended", live: false }]);
     expect(expireQuiet([done], T0 + QUIET_WORKING_MS + 1)).toEqual([]);
     expect(expireQuiet([done], T0 + QUIET_RESTING_MS + 1)).toMatchObject([{ state: "ended" }]);
-    const claude = run([ev("UserPromptSubmit")]);
-    expect(expireQuiet([claude], T0 + QUIET_RESTING_MS * 2)).toEqual([]);
+  });
+
+  test("a Claude desktop session stuck mid-compact also expires: `claude agents` never lists it", () => {
+    const stuck = run([ev("UserPromptSubmit"), ev("PreCompact")], T0);
+    expect(stuck.state).toBe("compacting");
+    expect(expireQuiet([stuck], T0 + QUIET_WORKING_MS - 1)).toEqual([]);
+    expect(expireQuiet([stuck], T0 + QUIET_WORKING_MS + 1)).toMatchObject([{ state: "ended", live: false }]);
   });
 
   test("a known origin sticks when later events don't say", () => {
