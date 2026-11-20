@@ -1,6 +1,8 @@
 using System;
 using System.Threading;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace PetsIA;
 
@@ -11,6 +13,13 @@ static class Program
     {
         using var single = new Mutex(true, @"Local\PetsIA.Overlay", out var first);
         if (!first) return 0; // already running
+
+        // The strip is a tiny, per-pixel-transparent, always-on-top window. On some machines the GPU
+        // compositor drops its content after a driver reset, a sleep/wake, or a remote session change,
+        // and it then renders fully blank until something forces a repaint — invisible, though the
+        // process and the agent underneath are perfectly healthy. Software rendering sidesteps that
+        // whole class of compositor glitches; the window is small enough that the CPU cost is trivial.
+        RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
         var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
         app.DispatcherUnhandledException += (_, e) =>
