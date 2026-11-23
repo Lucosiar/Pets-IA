@@ -185,7 +185,11 @@ public sealed class StripController
         tray = new Tray(this);
 
         clock = new DispatcherTimer(DispatcherPriority.Render) { Interval = TimeSpan.FromSeconds(1 / FramesPerSecond) };
-        clock.Tick += (_, _) => Render();
+        clock.Tick += (_, _) =>
+        {
+            if (window.IsVisible) Native.KeepOnTop(window);
+            Render();
+        };
         Microsoft.Win32.SystemEvents.DisplaySettingsChanged += (_, _) => window.Dispatcher.BeginInvoke(new Action(Rebuild));
     }
 

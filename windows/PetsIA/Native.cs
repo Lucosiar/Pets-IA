@@ -20,6 +20,12 @@ static class Native
     [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW")]
     static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
+    [DllImport("user32.dll")]
+    static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+
+    static readonly IntPtr HWND_TOPMOST = new(-1);
+    const uint SWP_NOMOVE = 0x0002, SWP_NOSIZE = 0x0001, SWP_NOACTIVATE = 0x0010;
+
     /// Never takes focus from the app in front, stays out of Alt+Tab and the taskbar;
     /// click-through windows let the mouse pass to whatever is below.
     public static void MakeOverlay(Window window, bool clickThrough)
@@ -28,6 +34,17 @@ static class Native
         var style = GetWindowLongPtr(handle, GWL_EXSTYLE).ToInt64() | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW;
         if (clickThrough) style |= WS_EX_TRANSPARENT;
         SetWindowLongPtr(handle, GWL_EXSTYLE, new IntPtr(style));
+    }
+
+    /// Re-asserts the window's place at the very top of the z-order. WPF's own
+    /// `Topmost` setter is a no-op once it is already true, so it never recovers a
+    /// strip that another window (a UAC prompt, a game or presentation going
+    /// full-screen, a newly launched app briefly grabbing the foreground) has
+    /// pushed behind it; calling SetWindowPos directly, repeatedly, does.
+    public static void KeepOnTop(Window window)
+    {
+        var handle = new WindowInteropHelper(window).Handle;
+        if (handle != IntPtr.Zero) SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     }
 }
 
